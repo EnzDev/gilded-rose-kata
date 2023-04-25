@@ -1,6 +1,8 @@
 package com.gildedrose;
 
 class GildedRose {
+    public static final int DEFAULT_SELL_IN_CHANGE = -1;
+    public static final int DEFAULT_QUALITY_CHANGE = -1;
     Item[] items;
 
     public GildedRose(Item[] items) {
@@ -8,55 +10,48 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        for (int i = 0; i < items.length; i++) {
-            if (!items[i].name.equals("Aged Brie")
-                    && !items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                if (items[i].quality > 0) {
-                    if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                        items[i].quality = items[i].quality - 1;
-                    }
-                }
-            } else {
-                if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1;
+        for (Item item : items) {
+            updateItemQuality(item);
+            updateItemSellIn(item);
+        }
+    }
 
-                    if (items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (items[i].sellIn < 11) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
+    private static void updateItemQuality(Item item) {
+        if(item.name.equals(Item.SULFURAS)) return;
 
-                        if (items[i].sellIn < 6) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
-                    }
-                }
-            }
+        int qualityDiff = DEFAULT_QUALITY_CHANGE;
 
-            if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                items[i].sellIn = items[i].sellIn - 1;
-            }
+        if(item.sellIn <= 0) {
+            qualityDiff *= 2;
+        }
 
-            if (items[i].sellIn < 0) {
-                if (!items[i].name.equals("Aged Brie")) {
-                    if (!items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (items[i].quality > 0) {
-                            if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                                items[i].quality = items[i].quality - 1;
-                            }
-                        }
-                    } else {
-                        items[i].quality = items[i].quality - items[i].quality;
-                    }
-                } else {
-                    if (items[i].quality < 50) {
-                        items[i].quality = items[i].quality + 1;
-                    }
-                }
+        if(item.name.startsWith(Item.CONJURED_PREFIX)) {
+            qualityDiff *= 2;
+        }
+
+        if(item.name.startsWith(Item.PASS_PREFIX)) {
+            if (item.sellIn <= 0) {
+                qualityDiff = -item.quality;
+            } else if (item.sellIn <= 5) {
+                qualityDiff *= -3;
+            } else if (item.sellIn <= 10) {
+                qualityDiff *= -2;
             }
         }
+
+        if(item.name.startsWith(Item.AGED_PREFIX)) {
+            // Aged gain quality
+            qualityDiff *= -1;
+        }
+
+        item.quality = item.quality + qualityDiff;
+        item.quality = Math.min(item.quality, 50);
+        item.quality = Math.max(item.quality, 0);
+    }
+
+    private static void updateItemSellIn(Item item) {
+        if(item.name.equals(Item.SULFURAS)) return;
+
+        item.sellIn = item.sellIn + DEFAULT_SELL_IN_CHANGE;
     }
 }

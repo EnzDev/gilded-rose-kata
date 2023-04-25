@@ -4,8 +4,10 @@ package com.gildedrose;
 
 public class Item {
     public static String SULFURAS = "Sulfuras, Hand of Ragnaros";
-    public static String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
-    public static String AGED_BRIE = "Aged Brie";
+
+    public static String CONJURED_PREFIX = "Conjured ";
+    public static String AGED_PREFIX = "Aged ";
+    public static String PASS_PREFIX = "Backstage ";
 
 
     public String name;

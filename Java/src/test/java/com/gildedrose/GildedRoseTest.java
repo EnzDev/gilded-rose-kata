@@ -73,7 +73,7 @@ class GildedRoseTest {
      * "Sulfuras" statistiques ne bougent pas
      */
     @Test
-    void testSulfurasDoesExpire() {
+    void testSulfurasNeverExpire() {
         Item[] items = new Item[] { new Item("Sulfuras, Hand of Ragnaros", 10, 80) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
@@ -84,7 +84,7 @@ class GildedRoseTest {
      * "Sulfuras" statistiques ne bougent pas
      */
     @Test
-    void testSulfurasQualityDecreases() {
+    void testSulfurasQualityNeverChange() {
         Item[] items = new Item[] { new Item("Sulfuras, Hand of Ragnaros", 10, 80) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
