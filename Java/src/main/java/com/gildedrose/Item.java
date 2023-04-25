@@ -1,6 +1,12 @@
 package com.gildedrose;
 
+
+
 public class Item {
+    public static String SULFURAS = "Sulfuras, Hand of Ragnaros";
+    public static String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
+    public static String AGED_BRIE = "Aged Brie";
+
 
     public String name;
 
